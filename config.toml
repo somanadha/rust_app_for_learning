@@ -1,0 +1,19 @@
+[two_columns_table_data]
+penguin_data = """
+common name,       length (cm)
+Little penguin,       33
+Yellow-eyed penguin,  65 
+Fiordland penguin,    60 
+Invalid,              data
+"""
+
+[search_word_data]
+search_word = "picture"
+search_text = """
+Every face, every shop, bedroom window, public-house, and
+dark square is a picture feverishly turned--in search of what?
+It is the same with books. What do we seek through millions of pages?
+"""
+
+[raw_data]
+raw_integer_data_string = "23, 10, 44, 55, 10, 9, -1, 33"
