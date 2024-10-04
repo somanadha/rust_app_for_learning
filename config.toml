@@ -1,6 +1,6 @@
 [two_columns_table_data]
 penguin_data = """
-common name,       length (cm)
+Name,       length (cm)
 Little penguin,       33
 Yellow-eyed penguin,  65 
 Fiordland penguin,    60 
@@ -15,5 +15,11 @@ dark square is a picture feverishly turned--in search of what?
 It is the same with books. What do we seek through millions of pages?
 """
 
-[raw_data]
-raw_integer_data_string = "23, 10, 44, 55, 10, 9, -1, 33"
+[comma_separated_numeric_data]
+integer_data_string = "23, 10, 44, 55, 10, 9, -1, 33"
+
+[pig_latin]
+text_for_pig_latin_conversion = """
+apple
+"""
+

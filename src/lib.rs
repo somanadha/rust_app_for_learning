@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use std::{collections::HashMap, fs};
+use std::fs;
 
 #[derive(Debug, Deserialize)]
 struct TwoColumnsTableData {
@@ -13,15 +13,21 @@ struct SearchWordData {
 }
 
 #[derive(Debug, Deserialize)]
-struct RawData {
-    raw_integer_data_string: String,
+struct CommaSeparatedNumericData {
+    integer_data_string: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct PigLatin {
+    text_for_pig_latin_conversion: String,
 }
 
 #[derive(Debug, Deserialize)]
 struct Config {
     two_columns_table_data: TwoColumnsTableData,
     search_word_data: SearchWordData,
-    raw_data: RawData,
+    comma_separated_numeric_data: CommaSeparatedNumericData,
+    pig_latin: PigLatin,
 }
 
 fn load_config_file() -> Config {
@@ -36,36 +42,6 @@ pub fn get_penguin_data_string() -> String {
     config.two_columns_table_data.penguin_data
 }
 
-pub fn print_table_data(table_data: &str) {
-    println!("Table Data");
-    println!("===========");
-
-    let table_data_as_lines = table_data.lines();
-
-    for (line_index, one_line) in table_data_as_lines.enumerate() {
-        if line_index == 0 || one_line.trim().is_empty() {
-            continue;
-        }
-
-        let tokens_in_one_line: Vec<_> = one_line
-            .split(',')
-            .map(|one_token| one_token.trim())
-            .collect();
-
-        if tokens_in_one_line.len() >= 2 {
-            let length_value_result: Result<f32, _> = tokens_in_one_line[1].parse();
-
-            if length_value_result.is_ok() {
-                println!(
-                    "{:?} - {:?}",
-                    tokens_in_one_line[0].trim(),
-                    length_value_result.unwrap()
-                )
-            }
-        }
-    }
-}
-
 pub fn get_search_word_data() -> (String, String) {
     let config = load_config_file();
     (
@@ -73,36 +49,9 @@ pub fn get_search_word_data() -> (String, String) {
         config.search_word_data.search_text,
     )
 }
-
-pub fn get_search_word_lines() -> HashMap<usize, String> {
-    let mut search_word_lines = HashMap::new();
-    let search_word_data = get_search_word_data();
-    let search_word = search_word_data.0;
-    let search_text = search_word_data.1;
-    for (i, line) in search_text.lines().enumerate() {
-        if line.contains(&search_word) {
-            search_word_lines.insert(i + 1, line.to_string());
-        }
-    }
-    search_word_lines
-}
-
-pub fn print_search_word_lines() {
-    let search_word_data = get_search_word_data();
-    println!();
-    println!(
-        "The searh word: \"{}\" found in following lines (prefixed with line numbers)",
-        search_word_data.0
-    );
-    println!("=============================================================================");
-    for (line_num, line) in get_search_word_lines() {
-        print!("{} : {}", line_num, line)
-    }
-}
-
 pub fn get_raw_integer_data() -> Vec<i32> {
     let config: Config = load_config_file();
-    let raw_integer_data_string = config.raw_data.raw_integer_data_string;
+    let raw_integer_data_string = config.comma_separated_numeric_data.integer_data_string;
     let mut integers_vector = Vec::new();
     for one_integer_string in raw_integer_data_string.split(',') {
         let one_integer = one_integer_string
@@ -113,4 +62,24 @@ pub fn get_raw_integer_data() -> Vec<i32> {
     }
 
     integers_vector
+}
+
+pub fn get_text_for_pig_latin_conversion() -> String {
+    let config: Config = load_config_file();
+    config.pig_latin.text_for_pig_latin_conversion
+}
+
+pub fn is_this_a_vowel_word(word: &str) -> bool {
+    match word.chars().next() {
+        Some(c) => "AEIOUaeiou".contains(c),
+        None => false,
+    }
+}
+
+pub fn is_this_a_vowel_char(one_char: char) -> bool {
+    let mut is_vowel: bool = false;
+    if "AEIOUaeiou".contains(one_char) {
+        is_vowel = true;
+    }
+    is_vowel
 }

@@ -22,15 +22,16 @@ fn main() {
 pub fn get_mean() -> f32 {
     let integer_vector = get_raw_integer_data();
     let sum: i32 = integer_vector.iter().sum();
+    let mean_value = sum as f32 / integer_vector.len() as f32;
 
-    sum as f32 / integer_vector.len() as f32
+    mean_value
 }
 
 pub fn get_median() -> f32 {
     let mut sorted_integer_vector = get_raw_integer_data();
     sorted_integer_vector.sort();
     let integer_vector_length = sorted_integer_vector.len();
-    let median = if integer_vector_length % 2 != 0 {
+    let median_value = if integer_vector_length % 2 != 0 {
         let middle_term_index = integer_vector_length / 2;
         *sorted_integer_vector.get(middle_term_index).unwrap() as f32
     } else {
@@ -43,7 +44,7 @@ pub fn get_median() -> f32 {
         (middle_term_1 + middle_term_2) / 2_f32
     };
 
-    median
+    median_value
 }
 
 pub fn get_mode() -> f32 {

@@ -1,13 +1,8 @@
 #![allow(warnings)]
-use rust_app_for_learning::get_penguin_data_string;
-use rust_app_for_learning::print_search_word_lines;
-use rust_app_for_learning::print_table_data;
 use std::ops::Add;
 use std::process::Output;
 use std::time::{Duration, Instant};
 fn main() {
-    //print_table_data(&get_penguin_data_string());
-
     // let a = 10;
     // let b = 20;
 
