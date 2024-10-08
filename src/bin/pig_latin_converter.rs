@@ -3,9 +3,6 @@ use rust_app_for_learning::is_this_a_vowel_char;
 use rust_app_for_learning::is_this_a_vowel_word;
 fn main() {
     print_normal_text_in_pig_latin();
-
-    //     let x = convert_to_pig_latin("The");
-    //     println!("{x}");
 }
 
 pub fn print_normal_text_in_pig_latin() {
@@ -16,20 +13,21 @@ pub fn print_normal_text_in_pig_latin() {
     println!("---------------------------------------------");
     println!("{text_for_pig_latin_conversion}");
     println!("---------------------------------------------");
-    println!();
 
     let mut pig_latin_converted_text = String::new();
     for one_line in text_for_pig_latin_conversion.lines() {
-        let words_in_one_line = one_line.split("\t ");
-        let mut converted_line = String::new();
-        for word in words_in_one_line {
-            let converted_word = convert_to_pig_latin(word);
-            converted_line.insert_str(converted_word.len(), &converted_word);
-            converted_line.insert(' '.len_utf8(), ' ');
+        let mut one_word: String = String::new();
+        for one_char in one_line.chars() {
+            if one_char.is_whitespace() || one_char == ',' {
+                let converted_word = convert_to_pig_latin(&one_word);
+                pig_latin_converted_text
+                    .insert_str(pig_latin_converted_text.len(), &converted_word);
+                pig_latin_converted_text.insert(pig_latin_converted_text.len(), one_char);
+                one_word = String::new();
+            } else {
+                one_word.push(one_char);
+            }
         }
-        let trimmed_converted_line = converted_line.trim();
-        pig_latin_converted_text.insert_str(trimmed_converted_line.len(), trimmed_converted_line);
-        pig_latin_converted_text.insert_str("\n".len(), "\n");
     }
     println!("---------------------------------------------");
     println!("               Conveted Text");
@@ -40,34 +38,28 @@ pub fn print_normal_text_in_pig_latin() {
 
 pub fn convert_to_pig_latin(word: &str) -> String {
     let mut converted_string: String = String::new();
-    if is_this_a_vowel_word(word) {
-        converted_string.insert_str(0, word);
-        converted_string.insert_str(word.len(), "hay");
-    } else {
-        let mut word_chars_iterator = word.chars();
-
-        let mut initial_consonants: Vec<char> = Vec::new();
-
-        for one_char in word_chars_iterator.by_ref() {
-            println!("{:?}", one_char);
-            if is_this_a_vowel_char(one_char) {
-                converted_string.insert(converted_string.len(), one_char);
-                break;
+    if !word.is_empty() {
+        if is_this_a_vowel_word(word) {
+            converted_string.insert_str(0, word);
+            converted_string.insert_str(word.len(), "hay");
+        } else {
+            let mut word_chars_iterator = word.chars();
+            let mut initial_consonants: Vec<char> = Vec::new();
+            for one_char in word_chars_iterator.by_ref() {
+                if is_this_a_vowel_char(one_char) {
+                    converted_string.insert(converted_string.len(), one_char);
+                    break;
+                }
+                initial_consonants.push(one_char);
             }
-            initial_consonants.push(one_char);
+            for one_char in word_chars_iterator.by_ref() {
+                converted_string.insert(converted_string.len(), one_char);
+            }
+            for one_char in initial_consonants {
+                converted_string.insert(converted_string.len(), one_char);
+            }
+            converted_string.insert_str(converted_string.len(), "ay");
         }
-
-        println!("{:?}", initial_consonants);
-
-        for one_char in word_chars_iterator.by_ref() {
-            converted_string.insert(converted_string.len(), one_char);
-        }
-
-        for one_char in initial_consonants {
-            converted_string.insert(converted_string.len(), one_char);
-        }
-
-        converted_string.insert_str(converted_string.len(), "ay");
     }
     converted_string
 }

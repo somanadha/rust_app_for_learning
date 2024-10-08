@@ -20,6 +20,6 @@ integer_data_string = "23, 10, 44, 55, 10, 9, -1, 33"
 
 [pig_latin]
 text_for_pig_latin_conversion = """
-apple
+The standard library API documentation describes methods that vectors, strings, and hash maps have that will be helpful for these exercises!
 """
 
