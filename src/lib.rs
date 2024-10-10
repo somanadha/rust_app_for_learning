@@ -31,10 +31,12 @@ struct Config {
 }
 
 fn load_config_file() -> Config {
-    let config_content = fs::read_to_string("config.toml").unwrap();
+    let config_content =
+        fs::read_to_string("config.toml").expect("Unable to read <config.toml> file");
 
     // Parse the string into the Config struct
-    toml::from_str(&config_content).unwrap()
+    toml::from_str(&config_content)
+        .expect("Unable to convert <config.toml> file content to <Config> structure ")
 }
 
 pub fn get_penguin_data_string() -> String {

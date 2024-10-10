@@ -33,13 +33,21 @@ pub fn get_median() -> f32 {
     let integer_vector_length = sorted_integer_vector.len();
     let median_value = if integer_vector_length % 2 != 0 {
         let middle_term_index = integer_vector_length / 2;
-        *sorted_integer_vector.get(middle_term_index).unwrap() as f32
+        *sorted_integer_vector
+            .get(middle_term_index)
+            .expect("Unable to get middle term from the vector") as f32
     } else {
         let middle_term_index_1 = integer_vector_length / 2;
         let middle_term_index_2 = integer_vector_length / 2 - 1;
 
-        let middle_term_1 = *sorted_integer_vector.get(middle_term_index_1).unwrap() as f32;
-        let middle_term_2 = *sorted_integer_vector.get(middle_term_index_2).unwrap() as f32;
+        let middle_term_1 = *sorted_integer_vector
+            .get(middle_term_index_1)
+            .expect("Unable to get the 1st middle term from the vector")
+            as f32;
+        let middle_term_2 = *sorted_integer_vector
+            .get(middle_term_index_2)
+            .expect("Unable to get the 2nd middle term from the vector")
+            as f32;
 
         (middle_term_1 + middle_term_2) / 2_f32
     };

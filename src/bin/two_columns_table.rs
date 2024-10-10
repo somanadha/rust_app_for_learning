@@ -35,8 +35,12 @@ where
             .collect();
 
         if tokens_in_one_line.len() == 2 {
-            let column_1 = tokens_in_one_line[0].parse().unwrap();
-            let column_2 = tokens_in_one_line[1].parse().unwrap();
+            let column_1 = tokens_in_one_line[0].parse().expect(
+                "Column 1: Unable to parse the string in to the type of <key> in <IndexMap>",
+            );
+            let column_2 = tokens_in_one_line[1].parse().expect(
+                "Column 2: Unable to parse the string in to the type of <value> in <IndexMap>",
+            );
             //println!("Column 1: {:?}, Column 2: {:?}", column_1, column_2);
             two_column_table.insert(column_1, column_2);
         }

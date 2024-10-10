@@ -25,8 +25,13 @@ fn display_main_screen() -> u8 {
     println!("Enter Option Number");
     let mut option_string = String::new();
 
-    io::stdin().read_line(&mut option_string).unwrap();
-    let option: u8 = option_string.trim_end().parse().unwrap();
+    io::stdin()
+        .read_line(&mut option_string)
+        .expect("Unable to read a line from the <stdin>");
+    let option: u8 = option_string
+        .trim_end()
+        .parse()
+        .expect("Unabel parse the read text as <u8> type");
 
     option
 }
