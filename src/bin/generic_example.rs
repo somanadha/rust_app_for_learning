@@ -1,7 +1,7 @@
 fn main() {
     //finding_largest_generic();
     //calculate_distance_from_origin();
-    check_tuple_2_anology();
+    check_tuple_2_mixup();
 }
 
 fn finding_largest_generic() {
@@ -62,31 +62,31 @@ fn calculate_distance_from_origin() {
 }
 
 #[derive(Debug)]
-struct Tuple_2<T, U> {
+struct Tuple2<T, U> {
     item_1: T,
     item_2: U,
 }
-impl<T,U>  Tuple_2<T, U> {
-    fn tuple_2_anology<V,W>(self, another: Tuple_2<V, W>) -> Tuple_2<T,W> {
-        Tuple_2{
-            item_1 : self.item_1,
-            item_2: another.item_2
+impl<T, U> Tuple2<T, U> {
+    fn tuple_2_mixup<V, W>(self, another: Tuple2<V, W>) -> Tuple2<T, W> {
+        Tuple2 {
+            item_1: self.item_1,
+            item_2: another.item_2,
         }
     }
 }
 
-fn check_tuple_2_anology(){
-    let t1 = Tuple_2{
+fn check_tuple_2_mixup() {
+    let t1 = Tuple2 {
         item_1: 10,
         item_2: 20,
     };
 
-    let t2 = Tuple_2{
-        item_1:"Satya",
-        item_2:"Udaya",
+    let t2 = Tuple2 {
+        item_1: "Satya",
+        item_2: "Udaya",
     };
 
-    let t3 = t1.tuple_2_anology(t2);
+    let t3 = t1.tuple_2_mixup(t2);
 
     println!("{:#?}", t3);
 }
