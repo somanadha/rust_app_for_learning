@@ -32,6 +32,16 @@ fn main() {
     // y.push_str(" World");
     // x.push_str("!");
     //println!("{x}");
+
+    //println!("{}",s1);
+
+    let mut list = vec![1, 2, 3];
+    println!("Before defining closure: {list:?}");
+
+    let mut borrows_mutably = || list.push(7);
+
+    borrows_mutably();
+    println!("After calling closure: {list:?}");
 }
 
 fn add_with_lifetimes<'d, 'e>(i: &'d i32, j: &'e i32) -> i32 {
