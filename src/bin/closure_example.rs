@@ -8,7 +8,7 @@ fn main() {
     let mut result = inventory.giveaway_one_shirt(Some(ShirtColor::Red));
     println!("{:#?}", result);
     println!("{:#?}", inventory);
-    
+
     result = inventory.giveaway_one_shirt(None);
     println!("{:#?}", result);
     println!("{:#?}", inventory);
