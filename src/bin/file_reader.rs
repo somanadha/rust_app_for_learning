@@ -2,12 +2,21 @@ use std::fs::{self, File};
 use std::io::{Error, ErrorKind, Read};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // let data = open_file_for_read_match();
-    // let data = open_file_for_read_simple().expect("Error getting data");
-    // let data = open_file_for_read_simple_chanining()?;
-    // let data = open_file_for_read_one_liner()?;
-    // println!("******* Here is the data *******");
-    // println!("{data}");
+    let data = open_file_for_read_match();
+    println!("******* Here is the data *******");
+    println!("from open_file_for_read_match => {data}");
+
+    let data = open_file_for_read_simple().expect("Error getting data");
+    println!("******* Here is the data *******");
+    println!("from open_file_for_read_simple => {data}");
+
+    let data = open_file_for_read_simple_chanining()?;
+    println!("******* Here is the data *******");
+    println!("from open_file_for_read_simple_chanining => {data}");
+
+    let data = open_file_for_read_one_liner()?;
+    println!("******* Here is the data *******");
+    println!("from open_file_for_read_one_liner => {data}");
 
     let user_name = read_username_from_file()?;
     println!("{user_name}");
