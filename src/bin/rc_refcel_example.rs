@@ -15,6 +15,10 @@ struct Student {
     name: String,
     college: Rc<College>,
 }
+
+// About the need & usage for Rc wrapper
+//======================================
+//
 // Due to strict ownership rules that Rust imposes, to support many-to-one relationship
 // (i.e multiple objects sharing the same object as a member), Reference Counting
 // (std::rc::Rc) wrapper needs to be used over the ONE "server" object that needs to be
@@ -22,7 +26,7 @@ struct Student {
 //
 // What Rc does, is that it would keep the server object intact and adds a wrapper that
 // takes care of keeping a count for number of client objects that have the server object
-// referencing.
+// referencing. Once the count reaches zero then server gets garbage collected.
 //
 // In the above struct definitions, it is required that, for multiple students to share the
 // same college object. So in the "Student" struct, "College" object is shared through "Rc".
@@ -30,19 +34,22 @@ struct Student {
 //
 // Similar to "Student" struct, "College" struct also contains multiple Student objects
 // in a Vector, NOT warapped through "Rc" but wrapped through "Weak".
+
+// About the need & usage for Weak wrapper
+//=========================================
 //
-// Weak referenceing is to avoid reference cycles and prevent memory leaks in scenarios where,
+// Weak wrapper is to avoid reference cycles and prevent memory leaks in scenarios where,
 // two or more Rc pointers might end up referencing each other. (Ex: Trees, 2-way Lists, Graphs)
 //
 // Student should be a weak reference in the College struct, as Student also has the College
 // as a reference leading to Cyclic references.
 //
 // Alos, since, a Student can't exist without a college and if College goes ways then all
-// students should also go away, Student should be made Weak Rc (i.e. "Weak") in the College
+// students should also go away, Student should be made a Weak Rc (i.e. "Weak") in the College
 // struct where as the College should be a Strong RC (i.e. plain "Rc") in the Student struct.
 //
-// To make things more clear "Rc" is the Strong type and "Weak" is the  weak type equivalent
-// for Rc - i.e. Reference Counting.
+// To make things more clear "Rc" (std::rc::Rc) is the Strong type and "Weak" (std::rc::Weak)
+//  is the  weak type equivalent for Rc - i.e. Reference Counting.
 //
 // In order to store a Student object as a Weak (Rc) type, "downgrade" associated function
 // needs to be called on "Rc" type, that converts the underlying object to a "Weak" object.
@@ -56,8 +63,13 @@ struct Student {
 // recommended to check the availability of the Weak reference through "match" or "if-let"
 // as the Weak object might go out of life by the time "upgrade" is called.
 //
-// Rc is not thread safe. In multi-threaded scenario Arc needs to be used
+// Rc is not thread safe. In multi-threaded scenario std::sync::Arc needs to be used. Similar
+// to std::rc:Weak thare is another thread safe version of std::sync::Weak which is the
+// counter part of it string type std::sync::Arc
 
+// About the need & usage for RefCel
+//==================================
+//
 // RefCell is is a powerful tool that allows for interior mutability—meaning that data can be
 // mutated even when RefCell is wrapping an immutable reference This is particularly useful in
 // scenarios where Rust's usual borrowing rules needs to be bypassed  at runtime.
@@ -89,7 +101,7 @@ fn main() {
             .push(Rc::downgrade(&student));
 
         println!("Student Inside Scope: {:?}", student);
-        
+
         student_vec.push(student);
     }
 

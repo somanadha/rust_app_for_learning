@@ -5,8 +5,7 @@ use std::thread;
 struct College {
     name: String,
     age: u32,
-    //students: Mutex<Vec<Weak<Student>>>,
-    students: Mutex<Vec<Student>>,
+    students: Mutex<Vec<Weak<Student>>>,
 }
 
 #[derive(Debug)]
@@ -27,15 +26,11 @@ fn main() {
     for i in 1..10 {
         let my_college = my_college.clone();
         let thread_handle = thread::spawn(move || {
-            //println!("Thread {} started.", i);
-            // let student = Arc::new(Student {
-            //     name: format!("student-{}", i),
-            //     college: my_college.clone(),
-            // });
-            let student = Student {
+            println!("Thread {} started.", i);
+            let student = Arc::new(Student {
                 name: format!("student-{}", i),
                 college: my_college.clone(),
-            };
+            });
 
             println!(
                 "Student: {} is from the college: {}",
@@ -44,9 +39,7 @@ fn main() {
 
             let mut mutex_lock_college_reference = my_college.students.lock().unwrap();
 
-            //mutex_lock_college_reference.push(Arc::downgrade(&student));
-
-            mutex_lock_college_reference.push(student);
+            mutex_lock_college_reference.push(Arc::downgrade(&student));
 
             //println!("Thread {} ended.", i);
         });
@@ -60,8 +53,8 @@ fn main() {
         let _ = thred_handle.join();
     }
     for student in my_college.students.lock().unwrap().iter() {
-        //if let Some(student) = student.upgrade() {
-        println!("College:{:?}", student.college);
-        //}
+        if let Some(student) = student.upgrade() {
+            println!("College:{:?}", student.college);
+        }
     }
 }
